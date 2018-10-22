@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 	"html/template"
 	"log"
 	"net/http"
+	"github.com/duxbuse/LogisticsMaps"  
 )
 
 type Page struct {
@@ -34,15 +36,19 @@ func diceHandler(w http.ResponseWriter, r *http.Request) {
 	max, _ := strconv.Atoi(r.FormValue("max"))
 	
 
-	result := chanceOfSuccess(threshold,forward, min, max)
+	result := LogisticsMaps.ChanceOfSuccess(threshold,forward, min, max)
 	resultString := strconv.FormatFloat(result*100, 'f', 2, 64)
 
 	p := &Page{Result: resultString, Threshold: threshold, Forward: forward, Min: min, Max: max}
 	renderTemplate(w, "dice", p)
 }
-
+//Dummy page to use for testing
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World!")
+}
 func main() {
 	http.HandleFunc("/dice/", diceHandler)
+	http.HandleFunc("/", handler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

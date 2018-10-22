@@ -1,8 +1,8 @@
-package main
+package LogisticsMaps
 import "math/rand"
 import "sort"
 
-func chanceOfSuccess(threshold int, forward bool, min int, max int) float64 {
+func ChanceOfSuccess(threshold int, forward bool, min int, max int) float64 {
 	iterations := 1000000
 	successes := 0
 
@@ -12,7 +12,7 @@ func chanceOfSuccess(threshold int, forward bool, min int, max int) float64 {
 
 		//Roll all the dice
 		for index, _ := range results{
-			results[index] = rollDice()
+			results[index] = RollDice()
 		}
 
 		//Sort the list to make it easy to remove min and max values
@@ -35,6 +35,6 @@ func chanceOfSuccess(threshold int, forward bool, min int, max int) float64 {
 	return chanceOfSuccess
 }
 
-func rollDice() int {
+func RollDice() int {
 	return rand.Intn(6) + 1
 }
