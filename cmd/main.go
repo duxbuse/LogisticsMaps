@@ -19,7 +19,7 @@ type Page struct {
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-	t, err := template.ParseFiles("../views/" + tmpl + ".html")
+	t, err := template.ParseFiles("./../views/" + tmpl + ".html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -51,7 +51,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World!")
 }
 func main() {
-	port := 8080
+	port := 9000
 	http.HandleFunc("/dice/", diceHandler)
 	http.HandleFunc("/", handler)
 
