@@ -10,6 +10,10 @@ import (
 	"github.com/duxbuse/LogisticsMaps"
 )
 
+/*
+Page represents all the data that is sent to the dice roller webpage
+This is for showing the results as well as inputs.
+*/
 type Page struct {
 	Result    string
 	Threshold int

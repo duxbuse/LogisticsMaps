@@ -1,3 +1,4 @@
 terraform.tfstate
 terraform.tfstate.backup
+.terraform.tfstate.lock.info
 diceroller-220503-8497483a16e9.json

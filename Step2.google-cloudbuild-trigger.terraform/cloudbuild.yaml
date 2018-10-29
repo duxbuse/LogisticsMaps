@@ -1,0 +1,28 @@
+steps:
+#Clone source repo into google repo
+- name: 'gcr.io/cloud-builders/git'
+  args:
+    - 'git'
+    - 'clone'
+    - '${_SOURCE_REPO}'
+    - '&&'
+    - 'git'
+    - 'remote'
+    - 'set-url'
+    - 'origin'
+    - '${_GOOGLE_REPO_URL}'
+    - '&&'
+    - 'git'
+    - 'push'
+    - '--all'
+    - '--tags'
+
+#Build image from google repo
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    - 'build'
+    - '-t'
+    - 'gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}'
+    - '-f'
+    - 'Dockerfile'
+    - '.'
