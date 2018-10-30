@@ -22,6 +22,13 @@ resource "google_container_cluster" "primary" {
   }
 }
 
+resource "local_file" "cluster-name" {
+  # outputting the cluster name so that Step 2 can read it.
+  content = "${google_container_cluster.primary.name}"
+  filename = "./../terraform-data/cluster-name.tfdata"
+}
+
+
 resource "google_container_node_pool" "primary_pool" {
   name       = "primary-pool"
   cluster    = "${google_container_cluster.primary.name}"
