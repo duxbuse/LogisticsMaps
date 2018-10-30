@@ -17,7 +17,7 @@ resource "google_cloudbuild_trigger" "new_git_build_trigger" {
   substitutions {
     _SOURCE_REPO     = "${var.source-repo}"
     _GOOGLE_REPO_URL = "${google_sourcerepo_repository.new_git_repository.url}"
-    _TAG             = "${lookup(var.triggers[count.index], "tag_type", "$BRANCH_NAME")}"
+    _TAG             = "${lookup(var.triggers[count.index], "branch", "master")}"
   }
 
   filename = "cloudbuild.yaml"
