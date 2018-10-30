@@ -1,21 +1,22 @@
 steps:
-#Clone source repo into google repo
-- name: 'gcr.io/cloud-builders/git'
-  args:
-    - 'git'
-    - 'clone'
-    - '${_SOURCE_REPO}'
-    - '&&'
-    - 'git'
-    - 'remote'
-    - 'set-url'
-    - 'origin'
-    - '${_GOOGLE_REPO_URL}'
-    - '&&'
-    - 'git'
-    - 'push'
-    - '--all'
-    - '--tags'
+    #TODO this wont work as for the build to happen it needs this yaml present in the cloud repo, and if this file is there then so is likley the whole repo.
+# #Clone source repo into google repo
+# - name: 'gcr.io/cloud-builders/git'
+#   args:
+#     - 'git'
+#     - 'clone'
+#     - '${_SOURCE_REPO}'
+#     - '&&'
+#     - 'git'
+#     - 'remote'
+#     - 'set-url'
+#     - 'origin'
+#     - '${_GOOGLE_REPO_URL}'
+#     - '&&'
+#     - 'git'
+#     - 'push'
+#     - '--all'
+#     - '--tags'
 
 #Build image from google repo
 - name: 'gcr.io/cloud-builders/docker'
