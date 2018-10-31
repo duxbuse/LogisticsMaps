@@ -16,3 +16,22 @@ spec:
         image: nginx:1.7.9
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "0.5"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: diceroller-service
+  annotations:
+    cloud.google.com/load-balancer-type: "Internal"
+spec:
+  type: LoadBalancer
+  selector:
+    app: diceroller-deployment
+  ports:
+  - port: 80
+    targetPort: 80

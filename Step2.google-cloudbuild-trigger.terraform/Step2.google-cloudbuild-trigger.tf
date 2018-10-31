@@ -28,10 +28,10 @@ resource "google_cloudbuild_trigger" "new_git_build_trigger" {
     _SOURCE_REPO     = "${var.source-repo}"
     _GOOGLE_REPO_URL = "${google_sourcerepo_repository.new_git_repository.url}"
     _TAG             = "${lookup(var.triggers[count.index], "branch", "master")}"
-    _DEPLOYMENT_NAME = "${local_file.deployment-name.content}"
-    _CONTAINER = "${local_file.container-name.content}"
+    _DEPLOYMENT_NAME = "${data.local_file.deployment-name.content}"
+    _CONTAINER = "${data.local_file.container-name.content}"
     _COMPUTE_ZONE = "${var.zone}"
-    _CLUSTER = "${local_file.cluster-name.content}"
+    _CLUSTER = "${data.local_file.cluster-name.content}"
   }
 
   filename = "cloudbuild.yaml"
