@@ -27,7 +27,15 @@ resource "local_file" "cluster-name" {
   content = "${google_container_cluster.primary.name}"
   filename = "./../terraform-data/cluster-name.tfdata"
 }
-
+resource "local_file" "container-name" {
+  
+  content = "${var.container-name}"
+  filename = "./../terraform-data/container-name.tfdata"
+}
+resource "local_file" "deployment-name" {
+  content = "${var.deployment-name}"
+  filename = "./../terraform-data/deployment-name.tfdata"
+}
 
 resource "google_container_node_pool" "primary_pool" {
   name       = "primary-pool"

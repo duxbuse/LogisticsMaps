@@ -37,12 +37,3 @@
 #   content = "${kubernetes_service.nginx.load_balancer_ingress.0.ip}"
 #   filename = "./../terraform-data/loadbalancer-ip.tfdata"
 # }
-# resource "local_file" "container-name" {
-  
-#   content = "${var.container-name}"
-#   filename = "./../terraform-data/container-name.tfdata"
-# }
-# resource "local_file" "deployment-name" {
-#   content = "${var.deployment-name}"
-#   filename = "./../terraform-data/deployment-name.tfdata"
-# }
