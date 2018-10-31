@@ -11,7 +11,7 @@ resource "google_container_cluster" "primary" {
 resource "google_container_node_pool" "primary_pool" {
   name       = "primary-pool"
   cluster    = "${google_container_cluster.primary.name}"
-  node_count = "2"
+  node_count = "5"
 
   node_config {
     machine_type = "f1-micro"
@@ -24,8 +24,8 @@ resource "google_container_node_pool" "primary_pool" {
   }
 
   autoscaling {
-    min_node_count = 2
-    max_node_count = 5
+    min_node_count = 5
+    max_node_count = 10
   }
 }
 

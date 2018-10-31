@@ -6,6 +6,8 @@ COPY . /go/src/github.com/duxbuse/LogisticsMaps/
 WORKDIR /go/src/github.com/duxbuse/LogisticsMaps/cmd
 #build and install source files into binary including c lib into the binary
 RUN CGO_ENABLED=0 GOOS=linux go install -a
+#run the go tests
+RUN go test cmd
 
 #------------------------------------
 FROM alpine
