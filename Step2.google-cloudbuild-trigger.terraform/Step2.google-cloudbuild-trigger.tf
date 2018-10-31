@@ -3,9 +3,6 @@ data "google_project" "project" {}
 data "local_file" "cluster-name"{
   filename = "./../terraform-data/cluster-name.tfdata"
 }
-data "local_file" "container-name"{
-  filename = "./../terraform-data/container-name.tfdata"
-}
 data "local_file" "deployment-name"{
   filename = "./../terraform-data/deployment-name.tfdata"
 }
@@ -29,7 +26,6 @@ resource "google_cloudbuild_trigger" "new_git_build_trigger" {
     _GOOGLE_REPO_URL = "${google_sourcerepo_repository.new_git_repository.url}"
     _TAG             = "${lookup(var.triggers[count.index], "branch", "master")}"
     _DEPLOYMENT_NAME = "${data.local_file.deployment-name.content}"
-    _CONTAINER = "${data.local_file.container-name.content}"
     _COMPUTE_ZONE = "${var.zone}"
     _CLUSTER = "${data.local_file.cluster-name.content}"
   }

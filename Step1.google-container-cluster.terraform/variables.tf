@@ -13,9 +13,6 @@ variable "region" {
 variable "zone" {
   default = "us-central1-c"
 }
-variable "container-name" {
-  default = "web"
-}
 variable "deployment-name" {
   default = "diceroller"
 }
