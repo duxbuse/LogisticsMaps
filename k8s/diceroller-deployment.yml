@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diceroller-deployment
+spec:
+  selector:
+    matchLabels:
+      app: diceroller-deployment
+  template:
+    metadata:
+      labels:
+        app: diceroller-deployment
+    spec:
+      containers:
+      - name: diceroller-deployment
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
