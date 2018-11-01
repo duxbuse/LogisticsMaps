@@ -7,6 +7,7 @@ steps:
   #push image to GCR
 - name: 'gcr.io/cloud-builders/docker'
   args: ["push", "gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}"]
+  # This will tag the image with what ever branch it was from. This means that there is no latest image
 
 
 #intialise kubernetes with k8s.yml
