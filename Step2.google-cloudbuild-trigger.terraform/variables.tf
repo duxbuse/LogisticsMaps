@@ -20,7 +20,7 @@ variable "triggers" {
   type = "list"
 
   default = [{
-    branch = "master"
+    branch = "latest"
   }]
 
   description = "Options of trigger"
