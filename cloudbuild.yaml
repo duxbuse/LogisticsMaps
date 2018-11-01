@@ -4,8 +4,6 @@ steps:
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}', '-f', 'Dockerfile', '.']
   timeout: 180s
 
-#run the go tests
-
   #push image to GCR
 - name: 'gcr.io/cloud-builders/docker'
   args: ["push", "gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}"]
