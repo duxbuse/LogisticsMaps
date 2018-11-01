@@ -4,6 +4,7 @@ Mapping tool to assist setup and tear down of street festivals
 
 ## Ways to run the app:
 Note: the first 3 options will expose the app on `localhost:9000`
+
 Method | Location | Command
 --- | --- | ---
 Go RUN | Local | `go run ./cmd/main.go`
