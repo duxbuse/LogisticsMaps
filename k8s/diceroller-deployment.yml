@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: diceroller-deployment
-        image: gcr.io/diceroller-220503/diceroller
+        image: gcr.io/diceroller-220503/diceroller:master
         ports:
         - containerPort: 9000
         resources:
