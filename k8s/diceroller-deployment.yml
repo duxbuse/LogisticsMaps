@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: diceroller-deployment
-        image: nginx:1.7.9
+        image: k8s.gcr.io/nginx:1.7.9
         ports:
         - containerPort: 80
         resources:
@@ -35,3 +35,12 @@ spec:
   ports:
   - port: 80
     targetPort: 80
+
+---
+kind: Ingress
+metadata:
+  name: diceroller-ingress
+spec:
+  backend:
+    serviceName: diceroller-service
+    servicePort: 80

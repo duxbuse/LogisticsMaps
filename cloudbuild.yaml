@@ -10,6 +10,7 @@ steps:
 
 
 #intialise kubernetes with k8s.yml
+#your clould build service account will also need permissions to deploy to GKE
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', './k8s/diceroller-deployment.yml']
   env:
