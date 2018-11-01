@@ -22,10 +22,7 @@ resource "google_cloudbuild_trigger" "new_git_build_trigger" {
   }
 
   substitutions {
-    _SOURCE_REPO     = "${var.source-repo}"
-    _GOOGLE_REPO_URL = "${google_sourcerepo_repository.new_git_repository.url}"
     _TAG             = "${lookup(var.triggers[count.index], "branch", "master")}"
-    _DEPLOYMENT_NAME = "${data.local_file.deployment-name.content}"
     _COMPUTE_ZONE = "${var.zone}"
     _CLUSTER = "${data.local_file.cluster-name.content}"
   }

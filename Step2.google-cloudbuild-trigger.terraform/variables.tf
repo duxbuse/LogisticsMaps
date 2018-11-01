@@ -25,9 +25,3 @@ variable "triggers" {
 
   description = "Options of trigger"
 }
-
-variable "source-repo" {
-  type        = "string"
-  description = "Name of source repository on github or bitbucket"
-  default     = "https://github.com/duxbuse/LogisticsMaps.git"
-}
