@@ -15,7 +15,7 @@ resource "google_container_node_pool" "primary_pool" {
 
   node_config {
     machine_type = "f1-micro"
-    # preemptible  = true
+    preemptible  = true
   }
 
   management {

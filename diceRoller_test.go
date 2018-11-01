@@ -1,4 +1,4 @@
-package LogisticsMaps
+package logisticsmaps
 
 import "testing"
 import "math"

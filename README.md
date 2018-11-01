@@ -1,2 +1,2 @@
 # LogisticsMaps
-Mapping tool to assist setup and tear down for street festivals
+Mapping tool to assist setup and tear down of street festivals

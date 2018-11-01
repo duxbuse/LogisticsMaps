@@ -41,7 +41,7 @@ func diceHandler(w http.ResponseWriter, r *http.Request) {
 	min, _ := strconv.Atoi(r.FormValue("min"))
 	max, _ := strconv.Atoi(r.FormValue("max"))
 
-	result := LogisticsMaps.ChanceOfSuccess(threshold, forward, min, max)
+	result := logisticsmaps.ChanceOfSuccess(threshold, forward, min, max)
 	resultString := strconv.FormatFloat(result*100, 'f', 2, 64)
 
 	p := &Page{Result: resultString, Threshold: threshold, Forward: forward, Min: min, Max: max}
