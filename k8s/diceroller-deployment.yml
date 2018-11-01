@@ -38,6 +38,7 @@ spec:
 
 ---
 kind: Ingress
+apiVersion: v1
 metadata:
   name: diceroller-ingress
 spec:
