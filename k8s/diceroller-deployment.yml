@@ -13,9 +13,9 @@ spec:
     spec:
       containers:
       - name: diceroller-deployment
-        image: k8s.gcr.io/nginx:1.7.9
+        image: gcr.io/diceroller-220503/diceroller
         ports:
-        - containerPort: 80
+        - containerPort: 9000
         resources:
           limits:
             memory: "128Mi"
@@ -34,7 +34,7 @@ spec:
     app: diceroller-deployment
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 9000
 
 ---
 kind: Ingress
