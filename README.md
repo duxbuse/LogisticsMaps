@@ -12,7 +12,7 @@ Docker | Local - Docker| <ol> <li> `docker build -t duxbuse/diceroller .`</li> <
 Minikube | Local - Kubernetes| <ol> <li> `docker build -t duxbuse/diceroller .`</li> <li>`docker stack deploy -c docker-compose.yml diceroller`</li>
 Google Cloud Platform | Cloud | <ol> <li>`cd Step1.google-container-cluster.terraform/`</li> <li>`terraform init` </li><li>`terraform apply` -> `yes`\*\*</li><li>`cd ../Step2.google-cloudbuild-trigger.terraform/` </li><li>`terraform init` </li><li>`terraform apply` -> `yes` \*\* </li></ol>
 
-### It should be noted that deploying to cloud has a few requirements.
+### It should be noted that deploying to cloud has a few pre-requisites.
 
 ** This will require a `xxx.json` key file for a service account that you will need to create manually with `Editor` permissions for step 1 and 2 to be saved locally and referenced in `provider-google.tf` credentials section for both step 1 and 2 directories.
 
@@ -27,7 +27,7 @@ provider "google" {
 
 You will also need to modify the permissions of the `cloudbuild.gserviceaccount.com` account to also allow `Kubernetes Engine Admin` permissions which will alow the cloudbuild to deploy images that succeed.
 
-An additional requirement is that you will need to mirror your github with this code to your new `Google Source repository` that Step2 will create for you.
+An additional requirement is that you will need to mirror your github with this code to your new `Google Source repository` that Step2 will create for you. It is also important to set the container registry to public so that your build step can have unfettered access to your image. Otherwise there is additional steps required in setting permissions for this.
 
  ** **Note that untill the cloud build runs you wont have anything deployed.** ** You can run this trigger manuaully the first time if you want to see it working.
 
