@@ -17,7 +17,7 @@ func ChanceOfSuccess(threshold int, forward bool, reroll bool, min int, max int)
 		if forward {
 			if sum >= threshold {
 				successes++
-			} else {
+			} else if reroll {
 				// reroll as it failed
 				sum = generateresults(resultsCount, max, min)
 				if sum >= threshold {
@@ -27,7 +27,7 @@ func ChanceOfSuccess(threshold int, forward bool, reroll bool, min int, max int)
 		} else {
 			if sum <= threshold {
 				successes++
-			} else {
+			} else if reroll {
 				// reroll as it failed
 				sum = generateresults(resultsCount, max, min)
 				if sum <= threshold {
