@@ -26,6 +26,14 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ["push", "gcr.io/$PROJECT_ID/helm"]
 
+  # initalise helm
+- name: 'gcr.io/$PROJECT_ID/helm'
+  args: ['init']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
+  - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
+
+
 # install chart with helm.
 - name: 'gcr.io/$PROJECT_ID/helm'
   args: ['install', 'stable/keel', '--name', 'keel', '--namespace', 'keel']
