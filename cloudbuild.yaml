@@ -36,7 +36,7 @@ steps:
 
 # install chart with helm.
 - name: 'gcr.io/$PROJECT_ID/helm'
-  args: ['install', 'stable/keel', '--name', 'keel', '--namespace', 'keel']
+  args: ['install', 'stable/keel', '--name', 'keel']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
