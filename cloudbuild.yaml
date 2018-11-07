@@ -34,8 +34,9 @@ steps:
 
 
 # install chart with helm.
+# TODO set all these config option ina  "values.yaml"
 - name: 'gcr.io/$PROJECT_ID/helm'
-  args: ['install', 'stable/keel', '--name', 'keel', '--namespace', 'keel']
+  args: ['upgrade', 'install', 'stable/keel', '--name', 'keel', '--namespace', 'kube-system', '--set gcr.enabled="true"', '--set gcr.projectID="$PROJECT_ID"']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
