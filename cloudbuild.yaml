@@ -9,7 +9,13 @@ steps:
   args: ["push", "gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}"]
   # This will tag the image with what ever branch it was from. This means that there is no latest image
 
-  
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['delete', 'ClusterRoleBinding', '--all']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
+  - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
+
+
 #intialise kubernetes with k8s.yml
 #your clould build service account will also need permissions to deploy to GKE
 - name: 'gcr.io/cloud-builders/kubectl'
