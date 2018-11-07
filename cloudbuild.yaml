@@ -24,7 +24,7 @@ steps:
 
   #push image to GCR
 - name: 'gcr.io/cloud-builders/docker'
-  args: ["push", "gcr.io/gcr.io/$PROJECT_ID/helm"]
+  args: ["push", "gcr.io/$PROJECT_ID/helm"]
 
 # install chart with helm.
 - name: 'gcr.io/$PROJECT_ID/helm'
