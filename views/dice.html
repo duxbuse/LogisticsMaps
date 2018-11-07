@@ -42,20 +42,24 @@ textarea {
         <form action="/dice/" method="POST">
             <fieldset>
                 <legend>Result Needed</legend>
-                <input name="threshold" autofocus="autofocus" value="{{.Threshold}}">
+                <input name="threshold" autofocus="autofocus"
+                    value="{{.Threshold}}">
             </fieldset>
 
             <fieldset>
                 <legend>Select Direction (Inclusive)</legend>
                 <div>
-                    <input type="radio" id="forward" name="direction" value="true" {{if .Forward}}checked{{end}} />
+                    <input type="radio" id="forward" name="direction"
+                        value="true" {{if .Forward}}checked{{end}} />
                     <label for="forward">Above</label>
                 </div>
 
                 <div>
-                    <input type="radio" id="forward" name="direction" value="false" {{if not .Forward}}checked{{end}} />
+                    <input type="radio" id="forward" name="direction"
+                        value="false" {{if not .Forward}}checked{{end}} />
                     <label for="forward">Below</label>
                 </div>
+
 
             </fieldset>
 
@@ -68,7 +72,14 @@ textarea {
                 <legend>Instances of Maximise</legend>
                 <input name="max" value="{{.Max}}">
             </fieldset>
-
+            <fieldset>
+                <legend>Rerolls</legend>
+                <div>
+                    <input type="checkbox" id="reroll" name="reroll"
+                        value="false" {{if .Reroll}}checked{{end}} />
+                    <label for="reroll"> True</label>
+                </div>
+            </fieldset>
             <input type="submit" value="Roll The Dice">
         </form>
     </div>

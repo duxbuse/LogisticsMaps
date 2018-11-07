@@ -18,6 +18,7 @@ type Page struct {
 	Result    string
 	Threshold int
 	Forward   bool
+	Reroll    bool
 	Min       int
 	Max       int
 }
@@ -40,11 +41,12 @@ func diceHandler(w http.ResponseWriter, r *http.Request) {
 	forward, _ := strconv.ParseBool(r.FormValue("direction"))
 	min, _ := strconv.Atoi(r.FormValue("min"))
 	max, _ := strconv.Atoi(r.FormValue("max"))
+	reroll, _ := strconv.ParseBool(r.FormValue("reroll"))
 
-	result := logisticsmaps.ChanceOfSuccess(threshold, forward, min, max)
+	result := logisticsmaps.ChanceOfSuccess(threshold, forward, reroll, min, max)
 	resultString := strconv.FormatFloat(result*100, 'f', 2, 64)
 
-	p := &Page{Result: resultString, Threshold: threshold, Forward: forward, Min: min, Max: max}
+	p := &Page{Result: resultString, Threshold: threshold, Forward: forward, Min: min, Max: max, Reroll: reroll}
 	renderTemplate(w, "dice", p)
 }
 

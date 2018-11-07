@@ -14,7 +14,7 @@ func TestRollDice(t *testing.T) {
 
 func Test7s(t *testing.T) {
 	expected := 58.00
-	recieved := math.Floor(ChanceOfSuccess(7, true, 0, 0) * 100)
+	recieved := math.Floor(ChanceOfSuccess(7, true, false, 0, 0) * 100)
 	if recieved != expected {
 		t.Errorf("Calculated wrong Value, got: %.2f, want: %.2f.", recieved, expected)
 	}
