@@ -28,7 +28,7 @@ steps:
 
   # initalise helm
 - name: 'gcr.io/$PROJECT_ID/helm'
-  args: ['init']
+  args: ['init', '--force-upgrade']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
