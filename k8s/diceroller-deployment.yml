@@ -61,7 +61,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: container-admin
+  name: admin
 subjects:
   - kind: ServiceAccount
     name: helm
