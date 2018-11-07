@@ -20,7 +20,7 @@ steps:
 
 # build the helm image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--tag=gcr.io/$PROJECT_ID/helm', '--build-arg', 'HELM_VERSION=v2.10.0', '/helm/.']
+  args: ['build', '--tag=gcr.io/$PROJECT_ID/helm', '--build-arg', 'HELM_VERSION=v2.10.0', './helm/Dockerfile']
 
   #push image to GCR
 - name: 'gcr.io/cloud-builders/docker'
