@@ -38,6 +38,13 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 func diceHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Serving Dice Page\n")
 	threshold, _ := strconv.Atoi(r.FormValue("threshold"))
+	// Ensure threshold is bounded by 2d6
+	if threshold < 2 {
+		threshold = 2
+	} else if threshold > 12 {
+		threshold = 12
+	}
+
 	forward, _ := strconv.ParseBool(r.FormValue("direction"))
 	min, _ := strconv.Atoi(r.FormValue("min"))
 	max, _ := strconv.Atoi(r.FormValue("max"))
