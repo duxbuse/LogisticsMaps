@@ -1,7 +1,11 @@
 resource "google_container_cluster" "primary" {
   name                     = "diceroller-cluster"
   remove_default_node_pool = true
-  initial_node_count = 1
+  initial_node_count = 3
+
+  lifecycle{
+    create_before_destroy = true
+  }
 
   master_auth {
     username = "${var.username}"
@@ -12,7 +16,11 @@ resource "google_container_cluster" "primary" {
 resource "google_container_node_pool" "primary_pool" {
   name       = "primary-pool"
   cluster    = "${google_container_cluster.primary.name}"
-  node_count = "2"
+  node_count = "3"
+
+  lifecycle { 
+    create_before_destroy = true
+  }
 
   node_config {
     machine_type = "f1-micro"
