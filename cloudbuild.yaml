@@ -27,14 +27,7 @@ steps:
 
   # initalise helm
 - name: 'gcr.io/$PROJECT_ID/helm'
-  args: ['init', '--force-upgrade']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
-  - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
-
-  # TODO: remove this 
-- name: 'gcr.io/cloud-builders/kubectl'
-  args: ['proxy']
+  args: ['init', '--upgrade']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
@@ -43,7 +36,7 @@ steps:
 # install chart with helm.
 # TODO: set all these config option ina  "values.yaml"
 - name: 'gcr.io/$PROJECT_ID/helm'
-  args: ['install', 'stable/keel', '--namespace', 'kube-system', '--set',  '[gcr.enabled=true, gcr.projectID=$PROJECT_ID]']
+  args: ['install', 'stable/keel', '--namespace', 'default', '--set',  '[gcr.enabled=true, gcr.projectID=$PROJECT_ID]']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
