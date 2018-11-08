@@ -15,6 +15,7 @@ spec:
       - name: diceroller-deployment
         # This image need to be in a public repo.
         image: gcr.io/diceroller-220503/diceroller:master
+        imagePullPolicy: "Always"
         ports:
         - containerPort: 9000
         resources:
