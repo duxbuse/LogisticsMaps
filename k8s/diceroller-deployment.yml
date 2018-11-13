@@ -47,23 +47,3 @@ spec:
   backend:
     serviceName: diceroller-service
     servicePort: 80
----
-# Below is creating a service account for helm to use
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: helm
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: admin
-subjects:
-  - kind: ServiceAccount
-    name: helm
-    namespace: kube-system
