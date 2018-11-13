@@ -14,7 +14,7 @@ func TestRollDice(t *testing.T) {
 }
 
 func Test7s(t *testing.T) {
-	// Rolling 2 dice with no modifiers will sum to 7 58% of the time
+	// Rolling 2 dice with no modifiers will sum to 7, 58% of the time
 	expected := 58.00
 	recieved := math.Floor(ChanceOfSuccess(7, true, false, 0, 0) * 100)
 	if recieved != expected {

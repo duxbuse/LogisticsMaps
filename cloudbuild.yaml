@@ -17,7 +17,7 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}' 
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}'
 
-# Bellow here is super dodgy hack that build deploys helm. this should be a one off thing in the future
+# Below here is super dodgy hack that build deploys helm. this should be a one off thing in the future
 
 # # build the helm image
 # - name: 'gcr.io/cloud-builders/docker'
