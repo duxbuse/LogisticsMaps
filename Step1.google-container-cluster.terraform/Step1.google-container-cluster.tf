@@ -34,7 +34,7 @@ resource "google_container_node_pool" "primary_pool" {
 
   autoscaling {
     min_node_count = 3
-    max_node_count = 10
+    max_node_count = 4
   }
 }
 
@@ -42,9 +42,4 @@ resource "local_file" "cluster-name" {
   # outputting the cluster name so that Step 2 can read it.
   content  = "${google_container_cluster.primary.name}"
   filename = "./../terraform-data/cluster-name.tfdata"
-}
-
-resource "local_file" "deployment-name" {
-  content  = "${var.deployment-name}"
-  filename = "./../terraform-data/deployment-name.tfdata"
 }

@@ -1,6 +1,6 @@
 provider "google" {
-  project     = "${var.project}"
+  project     = "${local.local-project}"
   credentials = "${file("diceroller-220503-8497483a16e9.json")}"
-  region      = "${var.region}"
-  zone        = "${var.zone}"
+  region      = "${local.local-region}"
+  zone        = "${local.local-zone}"
 }
