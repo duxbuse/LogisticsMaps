@@ -2,9 +2,9 @@ FROM golang as builder
 #copy in all source files
 WORKDIR /go/src/github.com/duxbuse/LogisticsMaps
 COPY . /go/src/github.com/duxbuse/LogisticsMaps/
+
 #run the go unit tests
 RUN go test
-
 
 WORKDIR /go/src/github.com/duxbuse/LogisticsMaps/cmd
 #build and install source files into binary including c lib into the binary

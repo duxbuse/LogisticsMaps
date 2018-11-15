@@ -42,7 +42,7 @@ textarea {
         <form action="/dice/" method="POST">
             <fieldset>
                 <legend>Result Needed {2-12}</legend>
-                <input name="threshold" autofocus="autofocus"
+                <input name="threshold" onfocus="this.value=''" autofocus="autofocus"
                     value="{{.Threshold}}">
             </fieldset>
 
@@ -50,7 +50,7 @@ textarea {
                 <legend>Select Direction (Inclusive)</legend>
                 <div>
                     <input type="radio" id="forward" name="direction"
-                        value="true" {{if .Forward}}checked{{end}} />
+                    onfocus="this.value=''"value="true" {{if .Forward}}checked{{end}} />
                     <label for="forward">Above</label>
                 </div>
 
@@ -65,12 +65,12 @@ textarea {
 
             <fieldset>
                 <legend>Instances of Minimise</legend>
-                <input name="min" value="{{.Min}}">
+                <input name="min" onfocus="this.value=''" value="{{.Min}}">
             </fieldset>
 
             <fieldset>
                 <legend>Instances of Maximise</legend>
-                <input name="max" value="{{.Max}}">
+                <input name="max" onfocus="this.value=''" value="{{.Max}}">
             </fieldset>
             <fieldset>
                 <legend>Rerolls</legend>
