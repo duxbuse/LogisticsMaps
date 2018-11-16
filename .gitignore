@@ -5,3 +5,4 @@ diceroller-220503-8497483a16e9.json
 *.tfdata
 .terraform/
 .vscode/
+server
