@@ -19,7 +19,8 @@ steps:
 
 # Template out kubernetes deployment yaml
 - name: 'gcr.io/cloud-builders/gcloud-slim'
-  args: ['envsubst', '<', 'diceroller-deployment.yml']
+  entrypoint: 'bash'
+  args: [envsubst', '<', 'diceroller-deployment.yml']
   env: ['tag=$REVISION_ID']
 
 
