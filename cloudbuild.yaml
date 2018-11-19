@@ -1,16 +1,16 @@
 steps:
 #Build diceroller image from google source repository
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME', '-f', 'Dockerfile', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$REVISION_ID', '-f', 'Dockerfile', '.']
   timeout: 180s
 
 # Add github branch as a tag
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'gcr.io/$PROJECT_ID/$REPO_NAME', '${_TAG}']
+  args: ['tag', 'gcr.io/$PROJECT_ID/$REPO_NAME:$REVISION_ID', '${_TAG}']
 
-# Add revisionID SHA as a tag
+# Add latest as a tag
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'gcr.io/$PROJECT_ID/$REPO_NAME', '$REVISION_ID']
+  args: ['tag', 'gcr.io/$PROJECT_ID/$REPO_NAME:$REVISION_ID', 'latest']
 
   #push image to GCR with tags for the SHA, git branch and latest
 - name: 'gcr.io/cloud-builders/docker'
