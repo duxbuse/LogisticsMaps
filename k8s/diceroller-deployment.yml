@@ -14,7 +14,8 @@ spec:
       containers:
       - name: diceroller-deployment
         # This image need to be in a public repo.
-        image: gcr.io/diceroller-220503/diceroller:master
+        # $tag is substituted from envsubst shell command
+        image: gcr.io/diceroller-220503/diceroller:$tag
         imagePullPolicy: "Always"
         ports:
         - containerPort: 9000

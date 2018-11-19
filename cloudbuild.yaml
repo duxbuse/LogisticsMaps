@@ -1,15 +1,29 @@
 steps:
 #Build diceroller image from google source repository
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}', '-f', 'Dockerfile', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME', '-f', 'Dockerfile', '.']
   timeout: 180s
 
-  #push image to GCR
+# Add github branch as a tag
 - name: 'gcr.io/cloud-builders/docker'
-  args: ["push", "gcr.io/$PROJECT_ID/$REPO_NAME:${_TAG}"]
-  # This will tag the image with what ever branch it was from. This means that there is no latest image
+  args: ['tag', 'gcr.io/$PROJECT_ID/$REPO_NAME', '${_TAG}']
 
-#intialise kubernetes with k8s.yml
+# Add revisionID SHA as a tag
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'gcr.io/$PROJECT_ID/$REPO_NAME', '$REVISION_ID']
+
+  #push image to GCR with tags for the SHA, git branch and latest
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/$PROJECT_ID/$REPO_NAME:$REVISION_ID"]
+  
+
+# Template out kubernetes deployment yaml
+- name: 'gcr.io/cloud-builders/gcloud-slim'
+  args: ['envsubst', '<', 'diceroller-deployment.yml']
+  env: ['tag=$REVISION_ID']
+
+
+#intialise kubernetes with deployment yaml
 #your clould build service account will also need permissions to deploy to GKE
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', './k8s/diceroller-deployment.yml']
