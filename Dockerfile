@@ -1,12 +1,14 @@
 FROM golang as builder
 #copy in all source files
-WORKDIR /go/src/github.com/duxbuse/LogisticsMaps
-COPY . /go/src/github.com/duxbuse/LogisticsMaps/
+WORKDIR /go/src/github.com/duxbuse/LogisticsMaps/utilities
+COPY ./utilities /go/src/github.com/duxbuse/LogisticsMaps/utilities
 
-#run the go unit tests
+#run the utilities unit tests
 RUN go test
 
 WORKDIR /go/src/github.com/duxbuse/LogisticsMaps/cmd
+COPY ./cmd /go/src/github.com/duxbuse/LogisticsMaps/cmd
+
 #build and install source files into binary including c lib into the binary
 RUN CGO_ENABLED=0 GOOS=linux go install -a
 #run the go app tests
