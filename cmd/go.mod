@@ -1,3 +1,5 @@
-module github.com/duxbuse/server
+module server
 
-require github.com/duxbuse/LogisticsMaps v0.0.0-20181115040216-3d53b3a4aa54
+require github.com/duxbuse/LogisticsMaps v0.0.0
+
+replace github.com/duxbuse/LogisticsMaps => ../utilities
