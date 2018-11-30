@@ -16,7 +16,6 @@ spec:
         # This image need to be in a public repo.
         # $tag is substituted from envsubst shell command
         image: gcr.io/diceroller-220503/diceroller:$tag
-        imagePullPolicy: "Always"
         ports:
         - containerPort: 9000
         resources:
