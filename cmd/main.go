@@ -21,6 +21,9 @@ type Page struct {
 	Reroll    bool
 	Min       int
 	Max       int
+	// Dave
+	Input     int
+	Factorial int
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
@@ -57,6 +60,16 @@ func diceHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "dice", p)
 }
 
+func factorialHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("Serving Factorial Page\n")
+	Input, _ := strconv.Atoi(r.FormValue("input"))
+
+	Output := logisticsmaps.Factorializer(Input)
+
+	p := &Page{Factorial: Output} // assign a value to the block 
+	renderTemplate(w, "factorial", p) // push the block into the hole 
+}
+
 //Dummy page to use for testing
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Serving Hello World Page\n")
@@ -67,6 +80,10 @@ func main() {
 	port := 9000
 	http.HandleFunc("/dice/", diceHandler)
 	http.HandleFunc("/", handler)
+
+	// Dave
+
+	http.HandleFunc("/factorial/", factorialHandler)
 
 	fmt.Printf("Listening on Port: %d\n", port)
 

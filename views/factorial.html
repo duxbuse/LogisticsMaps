@@ -1,0 +1,65 @@
+<style>
+    legend {
+    background-color: #000;
+    color: #fff;
+    padding: 3px 6px;
+}
+fieldset{
+    margin: 5px;
+    width: 250px;
+}
+
+.output {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input {
+    margin: .4rem;
+}
+.section{
+    padding: 0px 5px 5px 5px;
+    -moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+    -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+    box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+}
+.master{
+    width: 300px;
+}
+
+textarea {
+    resize: none;
+    overflow: hidden;
+    font-weight:bold;
+    text-align: left;
+}
+</style>
+<div class="master">
+
+
+    <div class="section">
+        <h1>Recursive Factorial Calculator</h1>
+
+        <form action="/factorial/" method="POST">
+            <fieldset>
+                <legend>Enter positive Int</legend>
+                <input name="input" onfocus="this.value=''" autofocus="autofocus" value="{{.Input}}">
+            </fieldset>
+
+            <!-- onfocus="this.value=''" autofocus="autofocus" -->
+
+
+            <!-- execute button here  -->
+            <input type="submit" value="Roll the Fact">
+
+        </form>
+
+        <div class="section">
+            <h1> Results</h1>
+            <fieldset>
+                <legend>Result of Factorial</legend>
+                <textarea readonly rows="1" cols="10">{{.Factorial}}</textarea>
+            </fieldset>
+
+        </div>
+
+    </div>
