@@ -21,9 +21,17 @@ type Page struct {
 	Reroll    bool
 	Min       int
 	Max       int
-	// Dave
+	// Dave - factorial
 	Input     int
 	Factorial int
+	// Dave - Vdrop
+	Voltage_input float64
+	Current       float64
+	Length        float64
+	Area          float64
+	//Voltage_drop  float64
+	Vdrop         float64
+	Vout          float64
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
@@ -66,15 +74,33 @@ func factorialHandler(w http.ResponseWriter, r *http.Request) {
 
 	Output := logisticsmaps.Factorializer(Input)
 
-	p := &Page{Factorial: Output} // assign a value to the block 
-	renderTemplate(w, "factorial", p) // push the block into the hole 
+	p := &Page{Factorial: Output}     // assign a value to the block
+	renderTemplate(w, "factorial", p) // push the block into the hole
+}
+
+func dropHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("Serving Voltage Drop Page\n")
+	voltage_input, _ := strconv.ParseFloat(r.FormValue("voltage_input"), 64)
+	current, _ := strconv.ParseFloat(r.FormValue("current"), 64)
+	length, _ := strconv.ParseFloat(r.FormValue("length"), 64)
+	area, _ := strconv.ParseFloat(r.FormValue("area"), 64)
+
+	Voltage_drop := logisticsmaps.Drop(current, length, area)
+	//VFinal := logisticsmaps.Vfinal(voltage_input, Voltage_drop)
+	VFinal := voltage_input - Voltage_drop
+
+
+	p := &Page{Vdrop: Voltage_drop, Vout: VFinal} // assign a value to the block
+	renderTemplate(w, "vdrop", p)                  // push the block into the hole
 }
 
 //Dummy page to use for testing
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Serving Hello World Page\n")
 
-	fmt.Fprintf(w, "Hello World!")
+	fmt.Fprintf(w, "Hello World!\n")
+	fmt.Fprintf(w, "Landing page for various testing")
+	
 }
 func main() {
 	port := 9000
@@ -84,6 +110,7 @@ func main() {
 	// Dave
 
 	http.HandleFunc("/factorial/", factorialHandler)
+	http.HandleFunc("/vdrop/", dropHandler)
 
 	fmt.Printf("Listening on Port: %d\n", port)
 
