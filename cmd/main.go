@@ -14,7 +14,7 @@ import (
 Page represents all the data that is sent to the dice roller webpage
 This is for showing the results as well as inputs.
 */
-type Page struct {
+type DicePage struct {
 	Result    string
 	Threshold int
 	Forward   bool
@@ -22,9 +22,24 @@ type Page struct {
 	Min       int
 	Max       int
 }
+type MapPage struct {
 
-func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-	t, err := template.ParseFiles("./../views/" + tmpl + ".html")
+}
+
+func renderMapTemplate(w http.ResponseWriter, tmpl string, p *MapPage) {
+	t, err := template.ParseFiles("./../public/views/" + tmpl + ".html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = t.Execute(w, p)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func renderDiceTemplate(w http.ResponseWriter, tmpl string, p *DicePage) {
+	t, err := template.ParseFiles("./../public/views/" + tmpl + ".html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -53,8 +68,8 @@ func diceHandler(w http.ResponseWriter, r *http.Request) {
 	result := logisticsmaps.ChanceOfSuccess(threshold, forward, reroll, min, max)
 	resultString := strconv.FormatFloat(result*100, 'f', 2, 64)
 
-	p := &Page{Result: resultString, Threshold: threshold, Forward: forward, Min: min, Max: max, Reroll: reroll}
-	renderTemplate(w, "dice", p)
+	p := &DicePage{Result: resultString, Threshold: threshold, Forward: forward, Min: min, Max: max, Reroll: reroll}
+	renderDiceTemplate(w, "dice", p)
 }
 
 //Dummy page to use for testing
@@ -63,11 +78,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Hello World!")
 }
+
+func mapHandler (w http.ResponseWriter, r *http.Request){
+	// TODO: make a map page with embedded google maps
+	fmt.Print("Serving Map Page\n")
+	p := &MapPage{}
+	renderMapTemplate(w, "map", p)
+}
+
+
 func main() {
 	port := 9000
 	http.HandleFunc("/dice/", diceHandler)
+	http.HandleFunc("/map/", mapHandler)
+	
 	http.HandleFunc("/", handler)
-
 	fmt.Printf("Listening on Port: %d\n", port)
 
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
