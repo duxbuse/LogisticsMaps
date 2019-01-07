@@ -41,7 +41,7 @@
     </div>
     <div id="map"></div>
     <script>
-          // This is a list of locations to put markers the first one is where the map is centered on load.
+          // This is a list of locations to put markers. The first one is where the map is centered on load.
           var locations = [
               {lat: 37.569, lng: -122.446},
               {lat: 37.511, lng: -122.447},
@@ -93,6 +93,7 @@
             }
 
             // Adds a marker to the map and push to the array.
+            // The timeout is how much time before creating the marker. This is used to prevent them all being made at once.
             function addMarker(location, timeout) {
               window.setTimeout(function() {
               var marker = new google.maps.Marker({

@@ -23,7 +23,6 @@ type DicePage struct {
 	Max       int
 }
 type MapPage struct {
-
 }
 
 func renderMapTemplate(w http.ResponseWriter, tmpl string, p *MapPage) {
@@ -79,20 +78,28 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World!")
 }
 
-func mapHandler (w http.ResponseWriter, r *http.Request){
+func mapHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: make a map page with embedded google maps
+	// and move the rendering logic out to a seperate function
 	fmt.Print("Serving Map Page\n")
 	p := &MapPage{}
 	renderMapTemplate(w, "map", p)
 }
 
+func clasherHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("Serving Clasher Page\n")
+	logisticsmaps.RenderClasher(w, r, "clasher")
+}
 
 func main() {
 	port := 9000
 	http.HandleFunc("/dice/", diceHandler)
 	http.HandleFunc("/map/", mapHandler)
-	
+	http.HandleFunc("/clasher/", clasherHandler)
 	http.HandleFunc("/", handler)
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./../public/js"))))
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./../public/css"))))
+
 	fmt.Printf("Listening on Port: %d\n", port)
 
 	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
