@@ -54,7 +54,7 @@ func TestFight(t *testing.T) {
 	//fight1
 	//18 DE spears 6 wide v 20 Sword and board dwarfs 5 wide
 
-	urawstats := map[string]EntetiesClass{"FQAN": {"FQAN", 18}, "FFOR": {"FFOR", 6}, "FDIS": {"FDIS", 8}, "FHP": {"FHP", 1}, "FDEF": {"FDEF", 4}, "FRES": {"FRES", 3}, "FARM": {"FARM", 2}, "FATT": {"FATT", 1}, "FOFF": {"FOFF", 4}, "FSTR": {"FSTR", 3}, "FAP": {"FAP", 1}, "FAGI": {"FAGI", 5}, "EQAN": {"EQAN", 25}, "EFOR": {"EFOR", 5}, "EDIS": {"EDIS", 9}, "EHP": {"EHP", 1}, "EDEF": {"EDEF", 4}, "ERES": {"ERES", 4}, "EARM": {"EARM", 3}, "EATT": {"EATT", 1}, "EOFF": {"EOFF", 4}, "ESTR": {"ESTR", 3}, "EAP": {"EAP", 0}, "EAGI": {"EAGI", 2}, "FSS": {"FSS", 0}, "ESS": {"ESS", 0}}
+	urawstats := map[string]EntetiesClass{"FQAN": {"FQAN", 21}, "FFOR": {"FFOR", 7}, "FDIS": {"FDIS", 8}, "FHP": {"FHP", 1}, "FDEF": {"FDEF", 4}, "FRES": {"FRES", 3}, "FARM": {"FARM", 2}, "FATT": {"FATT", 1}, "FOFF": {"FOFF", 4}, "FSTR": {"FSTR", 3}, "FAP": {"FAP", 1}, "FAGI": {"FAGI", 5}, "EQAN": {"EQAN", 25}, "EFOR": {"EFOR", 5}, "EDIS": {"EDIS", 9}, "EHP": {"EHP", 1}, "EDEF": {"EDEF", 4}, "ERES": {"ERES", 4}, "EARM": {"EARM", 3}, "EATT": {"EATT", 1}, "EOFF": {"EOFF", 4}, "ESTR": {"ESTR", 3}, "EAP": {"EAP", 0}, "EAGI": {"EAGI", 2}, "FSS": {"FSS", 0}, "ESS": {"ESS", 0}}
 
 	usecondarystats := map[string]EntetiesClass{"FHeightSelect": {"FHeightSelect", 1}, "EHeightSelect": {"EHeightSelect", 1}, "FTypeSelect": {"FTypeSelect", 1}, "ETypeSelect": {"ETypeSelect", 1}, "FWidthSelect": {"FWidthSelect", 20}, "EWidthSelect": {"EWidthSelect", 20}, "FWeaponSelect": {"FWeaponSelect", 2}, "EWeaponSelect": {"EWeaponSelect", 1}, "FRaceSelect": {"FRaceSelect", 1}, "ERaceSelect": {"ERaceSelect", 2}}
 
@@ -73,10 +73,10 @@ func TestFight(t *testing.T) {
 
 	outcome1 := Outcome{ //These results are fake and need to be real.
 		WINNER:      true,
-		AMMOUNT:     2,
-		BreakChance: "36.00",
-		FNUM:        16,
-		ENUM:        19}
+		AMMOUNT:     1,
+		BreakChance: "27.82",
+		FNUM:        20,
+		ENUM:        22}
 	results1 := Results{fight1, outcome1}
 
 	Tests[1] = results1
