@@ -25,12 +25,13 @@ type Data struct {
 	RawStats       map[string]EntetiesClass
 	SecondaryStats map[string]EntetiesClass
 
-	Weapon           map[int]string
-	Height           map[int]string
-	Type             map[int]string
-	Width            map[int]string
-	Races            map[int]string
-	SpecialtiesStats map[string]string
+	Weapon             map[int]string
+	Height             map[int]string
+	Type               map[int]string
+	Width              map[int]string
+	Races              map[int]string
+	SpecialtiesStats   map[string]string
+	SpecialtiesStatsOn map[string]bool
 }
 type Outcome struct {
 	WINNER      bool
@@ -62,7 +63,7 @@ func RenderClasher(w http.ResponseWriter, r *http.Request, tmpl string) {
 		urawstats[element] = EntetiesClass{Name: element[1:], Value: value}
 	}
 
-	secondarystatsnames := []string{"FHeightSelect", "EHeightSelect", "FTypeSelect", "ETypeSelect", "FWidthSelect", "EWidthSelect", "FWeaponSelect", "EWeaponSelect"} //dropdown values
+	secondarystatsnames := []string{"FHeightSelect", "EHeightSelect", "FTypeSelect", "ETypeSelect", "FWidthSelect", "EWidthSelect", "FWeaponSelect", "EWeaponSelect", "FRaceSelect", "ERaceSelect"} //dropdown values
 	for _, element := range secondarystatsnames {
 		value, _ := strconv.Atoi(r.FormValue(element))
 
@@ -109,8 +110,14 @@ func RenderClasher(w http.ResponseWriter, r *http.Request, tmpl string) {
 
 	specialtiesStatsNames := map[string]string{"Hatred": "any", "Distracting": "any", "Lightning Reflexes": "any", "Killer Instinct": "DE", "Shield Wall": "DH"}
 
+	specialtiesStatsOn := map[string]bool{}
+	// TODO: Make the specialties impact the reuslts
+	for k := range specialtiesStatsNames {
+		specialtiesStatsOn["F"+k] = len(r.FormValue("F"+k)) > 0
+		specialtiesStatsOn["E"+k] = len(r.FormValue("E"+k)) > 0
+	}
 	// Save all unit data as one object
-	data := Data{RawStats: urawstats, SecondaryStats: usecondarystats, Weapon: uweapon, Height: uheight, Type: utype, Width: ubase, Races: races, SpecialtiesStats: specialtiesStatsNames}
+	data := Data{RawStats: urawstats, SecondaryStats: usecondarystats, Weapon: uweapon, Height: uheight, Type: utype, Width: ubase, Races: races, SpecialtiesStats: specialtiesStatsNames, SpecialtiesStatsOn: specialtiesStatsOn}
 
 	outcome := fight(data)
 

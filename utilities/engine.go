@@ -8,16 +8,24 @@ import (
 func fight(data Data) Outcome {
 	// TODO: Charging friend/enemyAGI++
 	friendAGI := data.RawStats["FAGI"].Value
-	EnemyAGI := data.RawStats["EAGI"].Value
+	friendLR := data.SpecialtiesStatsOn["FLightning Reflexes"]
+	enemyAGI := data.RawStats["EAGI"].Value
+	enemyLR := data.SpecialtiesStatsOn["FLightning Reflexes"]
 
 	if data.SecondaryStats["FWeaponSelect"].Value == 4 { //greatweapon
-		friendAGI = 1
+		if !friendLR {
+			friendAGI = 1
+		}
+
 	}
 	if data.SecondaryStats["EWeaponSelect"].Value == 4 { //great weapon
-		EnemyAGI = 1
+		if !enemyLR {
+			enemyAGI = 1
+		}
+
 	}
 	//who fights first
-	beforeOrder := fightOrder(friendAGI, EnemyAGI)
+	beforeOrder := fightOrder(friendAGI, enemyAGI)
 	order := beforeOrder
 	notOrder := order
 	if beforeOrder == 'S' {
@@ -46,7 +54,32 @@ func fight(data Data) Outcome {
 	firstSS := data.RawStats[string(order)+"SS"].Value
 	firstParry := false
 	firstBSB := false
+	firstHitReroll := 0
+	firstWoundReroll := 0
 	firstFIAR := 0
+	firstHitMod := 0
+	firstHatred := data.SpecialtiesStatsOn[string(order)+"Hatred"]
+	firstDistracting := data.SpecialtiesStatsOn[string(order)+"Distracting"]
+	firstLightningReflexes := data.SpecialtiesStatsOn[string(order)+"Lightning Reflexes"]
+	firstKillerInstinct := data.SpecialtiesStatsOn[string(order)+"Killer Instinct"]
+	firstShieldWall := data.SpecialtiesStatsOn[string(order)+"Shield Wall"]
+	if firstShieldWall && firstSS < 2 {
+		//handle charging so its not always a 5++
+		firstSS = 2
+	}
+	if firstLightningReflexes {
+		firstHitMod++
+	}
+	if firstDistracting {
+		firstHitMod--
+	}
+	if firstHatred {
+		firstHitReroll = 6 //reroll upto all values
+	}
+	if firstKillerInstinct {
+		firstWoundReroll = 1 //only reroll 1's
+	}
+
 	//Make changes for firsts weapons
 	switch data.SecondaryStats[string(order)+"WeaponSelect"].Value {
 	case 1: //Sword and Board
@@ -59,11 +92,12 @@ func fight(data Data) Outcome {
 	case 4: //Greatweapon
 		firstSTR += 2
 		firstAP += 2
+		firstLightningReflexes = false
 		//AGI allready handled
 	case 5: //Paired Weapons
 		firstOFF++
 		firstATT++
-	case 6: //Light Lance TODO: when we have chargin this needs to be conditional
+	case 6: //Light Lance TODO: when we have charing this needs to be conditional
 		firstSTR++
 		firstAP++
 	case 7: //Lance
@@ -88,7 +122,32 @@ func fight(data Data) Outcome {
 
 	secondParry := false
 	secondBSB := false
+	secondHitReroll := 0
+	secondWoundReroll := 0
 	secondFIAR := 0
+	secondHitMod := 0
+	secondHatred := data.SpecialtiesStatsOn[string(notOrder)+"Hatred"]
+	secondDistracting := data.SpecialtiesStatsOn[string(notOrder)+"Distracting"]
+	secondLightningReflexes := data.SpecialtiesStatsOn[string(notOrder)+"Lightning Reflexes"]
+	secondKillerInstinct := data.SpecialtiesStatsOn[string(notOrder)+"Killer Instinct"]
+	secondShieldWall := data.SpecialtiesStatsOn[string(notOrder)+"Shield Wall"]
+	if secondShieldWall && secondSS < 2 {
+		//handle charging so its not always a 5++
+		secondSS = 2
+	}
+	if secondLightningReflexes {
+		secondHitMod++
+	}
+	if secondDistracting {
+		secondHitMod--
+	}
+	if secondHatred {
+		secondHitReroll = 6 //reroll upto all values
+	}
+	if secondKillerInstinct {
+		secondWoundReroll = 1 //only reroll 1's
+	}
+
 	//Make changes for seconds weapons
 	switch data.SecondaryStats[string(notOrder)+"WeaponSelect"].Value {
 	case 1: //Sword and Board
@@ -103,6 +162,7 @@ func fight(data Data) Outcome {
 	case 4: //Greatweapon
 		secondSTR += 2
 		secondAP += 2
+		secondLightningReflexes = false
 		//AGI allready handled
 	case 5: //Paired Weapons
 		secondOFF++
@@ -119,9 +179,12 @@ func fight(data Data) Outcome {
 	firstCombatants, secondCombatants := numOfCombatants(firstFOR, firstQAN, firstBaseWidth, secondFOR, secondQAN, secondBaseWidth)
 
 	firstAttacks, firstBonusHits := numOfAttacks(firstCombatants, firstATT, firstQAN, firstFOR, firstHeightSelection, secondHeightSelection, firstFIAR)
-	firstHitChance := hitChance(firstOFF, secondDEF, secondParry, 0, 0) //TODO: bring in parry and modifiers and rerolls properly
-	firstWoundChance := woundChance(firstSTR, secondRES, 0, 0)          //TODO: bring in modifiers and rerolls properly
+
+	firstHitChance := hitChance(firstOFF, secondDEF, secondParry, firstHitReroll, firstHitMod)
+
+	firstWoundChance := woundChance(firstSTR, secondRES, 0, firstWoundReroll) //TODO: bring in modifiers properly
 	firstArmourFailChance := armourFailChance(firstAP, secondARM)
+
 	firstSpecialFailChance := armourFailChance(0, secondSS) //ap is always 0 for special saves
 
 	firstCasualties := (firstAttacks*firstHitChance + firstBonusHits) * firstWoundChance * firstArmourFailChance * firstSpecialFailChance
@@ -133,8 +196,12 @@ func fight(data Data) Outcome {
 	}
 
 	secondAttacks, secondBonusHits := numOfAttacks(secondCombatants, secondATT, secondQAN, secondFOR, secondHeightSelection, firstHeightSelection, secondFIAR)
-	secondHitChance := hitChance(secondOFF, firstDEF, firstParry, 0, 0) //TODO: bring in reroll and modifiers
-	secondWoundChance := woundChance(secondSTR, firstRES, 0, 0)         //TODO: bring in modifiers and rerolls properly
+
+	if secondLightningReflexes {
+		secondHitMod++
+	}
+	secondHitChance := hitChance(secondOFF, firstDEF, firstParry, secondHitReroll, secondHitMod)
+	secondWoundChance := woundChance(secondSTR, firstRES, secondWoundReroll, 0) //TODO: bring in modifiers and rerolls properly
 	secondArmourFailChance := armourFailChance(secondAP, firstARM)
 	secondSpecialFailChance := armourFailChance(0, firstSS)
 
@@ -212,7 +279,7 @@ func hitChance(FOFF int, EDEF int, parry bool, rerollINC int, modifier int) floa
 	if parry && hit > 3.0 {
 		hit = 3.0
 	}
-	hit = hit + float64(modifier) //hit value out of 6 that will hit
+	hit = math.Min(math.Max(hit+float64(modifier), 1.0), 5.0) //hit value out of 6 that will hit
 
 	chance := hit / 6.0
 	failedchance := (6.0 - hit) / 6.0
@@ -236,7 +303,7 @@ func woundChance(FSTR int, ERES int, rerollINC int, modifier int) float64 {
 	} else {
 		wound = 1.0
 	}
-	wound = wound + float64(modifier) //wound value out of 6 that will wound
+	wound = math.Min(math.Max(wound+float64(modifier), 1.0), 5.0) //wound value out of 6 that will wound
 
 	chance := wound / 6.0
 	failedchance := (6.0 - wound) / 6.0
