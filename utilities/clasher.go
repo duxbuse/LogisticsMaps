@@ -100,7 +100,8 @@ func RenderClasher(w http.ResponseWriter, r *http.Request, tmpl string) {
 		4: "Great Weapon",
 		5: "Paired Weapons",
 		6: "Light Lance",
-		7: "Lance"}
+		7: "Lance",
+		8: "None"}
 
 	races := map[int]string{
 		1: "DE",

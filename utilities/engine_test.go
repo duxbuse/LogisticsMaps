@@ -1,8 +1,13 @@
 package logisticsmaps
 
-import "testing"
+import (
+	"math"
+	"strconv"
+	"testing"
+)
 
 func TestFight(t *testing.T) {
+	// TODO:
 
 	Tests := map[int]Results{}
 
@@ -37,54 +42,89 @@ func TestFight(t *testing.T) {
 		4: "Great Weapon",
 		5: "Paired Weapons",
 		6: "Light Lance",
-		7: "Lance"}
+		7: "Lance",
+		8: "None"}
 
-	races := map[int]string{
+	uraces := map[int]string{
 		1: "DE",
 		2: "DH",
 		3: "VC",
 		4: "OK"}
 
-	specialtiesStatsNames := map[string]string{"Hatred": "any", "Distracting": "any", "Lightning Reflexes": "any", "Killer Instinct": "DE", "Shield Wall": "DH"}
+	uspecialtiesStatsNames := map[string]string{"Hatred": "any", "Distracting": "any", "Lightning Reflexes": "any", "Killer Instinct": "DE", "Shield Wall": "DH"}
 
 	///////////////////////////////////////////////////
 	//////////////////////////////////////////////////
 	/////////////////////////////////////////////////
 
 	//fight1
-	//18 DE spears 6 wide v 20 Sword and board dwarfs 5 wide
+	//21 DE spears 7 wide v 25 Sword and board dwarfs 5 wide
 
-	urawstats := map[string]EntetiesClass{"FQAN": {"FQAN", 21}, "FFOR": {"FFOR", 7}, "FDIS": {"FDIS", 8}, "FHP": {"FHP", 1}, "FDEF": {"FDEF", 4}, "FRES": {"FRES", 3}, "FARM": {"FARM", 2}, "FATT": {"FATT", 1}, "FOFF": {"FOFF", 4}, "FSTR": {"FSTR", 3}, "FAP": {"FAP", 1}, "FAGI": {"FAGI", 5}, "EQAN": {"EQAN", 25}, "EFOR": {"EFOR", 5}, "EDIS": {"EDIS", 9}, "EHP": {"EHP", 1}, "EDEF": {"EDEF", 4}, "ERES": {"ERES", 4}, "EARM": {"EARM", 3}, "EATT": {"EATT", 1}, "EOFF": {"EOFF", 4}, "ESTR": {"ESTR", 3}, "EAP": {"EAP", 0}, "EAGI": {"EAGI", 2}, "FSS": {"FSS", 0}, "ESS": {"ESS", 0}}
+	fight1rawstats := map[string]EntetiesClass{"FQAN": {"FQAN", 21}, "FFOR": {"FFOR", 7}, "FDIS": {"FDIS", 8}, "FHP": {"FHP", 1}, "FDEF": {"FDEF", 4}, "FRES": {"FRES", 3}, "FARM": {"FARM", 2}, "FATT": {"FATT", 1}, "FOFF": {"FOFF", 4}, "FSTR": {"FSTR", 3}, "FAP": {"FAP", 0}, "FAGI": {"FAGI", 5}, "EQAN": {"EQAN", 25}, "EFOR": {"EFOR", 5}, "EDIS": {"EDIS", 9}, "EHP": {"EHP", 1}, "EDEF": {"EDEF", 4}, "ERES": {"ERES", 4}, "EARM": {"EARM", 3}, "EATT": {"EATT", 1}, "EOFF": {"EOFF", 4}, "ESTR": {"ESTR", 3}, "EAP": {"EAP", 0}, "EAGI": {"EAGI", 2}, "FSS": {"FSS", 0}, "ESS": {"ESS", 0}}
 
-	usecondarystats := map[string]EntetiesClass{"FHeightSelect": {"FHeightSelect", 1}, "EHeightSelect": {"EHeightSelect", 1}, "FTypeSelect": {"FTypeSelect", 1}, "ETypeSelect": {"ETypeSelect", 1}, "FWidthSelect": {"FWidthSelect", 20}, "EWidthSelect": {"EWidthSelect", 20}, "FWeaponSelect": {"FWeaponSelect", 2}, "EWeaponSelect": {"EWeaponSelect", 1}, "FRaceSelect": {"FRaceSelect", 1}, "ERaceSelect": {"ERaceSelect", 2}}
+	fight1secondarystats := map[string]EntetiesClass{"FHeightSelect": {"FHeightSelect", 1}, "EHeightSelect": {"EHeightSelect", 1}, "FTypeSelect": {"FTypeSelect", 1}, "ETypeSelect": {"ETypeSelect", 1}, "FWidthSelect": {"FWidthSelect", 20}, "EWidthSelect": {"EWidthSelect", 20}, "FWeaponSelect": {"FWeaponSelect", 2}, "EWeaponSelect": {"EWeaponSelect", 1}, "FRaceSelect": {"FRaceSelect", 1}, "ERaceSelect": {"ERaceSelect", 2}}
 
-	uspecialtiesStatsOn := map[string]bool{"FLightning Reflexes": true, "FKiller Instinct": true, "EShield Wall": true}
+	fight1specialtiesStatsOn := map[string]bool{"FLightning Reflexes": true, "FKiller Instinct": true, "EShield Wall": true}
 
 	fight1 := Data{
-		RawStats:           urawstats,
-		SecondaryStats:     usecondarystats,
+		RawStats:           fight1rawstats,
+		SecondaryStats:     fight1secondarystats,
 		Weapon:             uweapon,
 		Height:             uheight,
 		Type:               utype,
 		Width:              ubase,
-		Races:              races,
-		SpecialtiesStats:   specialtiesStatsNames,
-		SpecialtiesStatsOn: uspecialtiesStatsOn}
+		Races:              uraces,
+		SpecialtiesStats:   uspecialtiesStatsNames,
+		SpecialtiesStatsOn: fight1specialtiesStatsOn}
 
-	outcome1 := Outcome{ //These results are fake and need to be real.
+	outcome1 := Outcome{
 		WINNER:      true,
 		AMMOUNT:     1,
-		BreakChance: "27.82",
+		BreakChance: "16.67",
 		FNUM:        20,
 		ENUM:        22}
 	results1 := Results{fight1, outcome1}
 
-	Tests[1] = results1
+	//fight2
+	//24 Dread Judges v 6 hold guardians
 
-	for _, tt := range Tests {
+	fight2rawstats := map[string]EntetiesClass{"FQAN": {"FQAN", 24}, "FFOR": {"FFOR", 8}, "FDIS": {"FDIS", 8}, "FHP": {"FHP", 1}, "FDEF": {"FDEF", 5}, "FRES": {"FRES", 3}, "FARM": {"FARM", 2}, "FATT": {"FATT", 1}, "FOFF": {"FOFF", 5}, "FSTR": {"FSTR", 4}, "FAP": {"FAP", 1}, "FAGI": {"FAGI", 5}, "EQAN": {"EQAN", 6}, "EFOR": {"EFOR", 3}, "EDIS": {"EDIS", 9}, "EHP": {"EHP", 3}, "EDEF": {"EDEF", 4}, "ERES": {"ERES", 5}, "EARM": {"EARM", 4}, "EATT": {"EATT", 3}, "EOFF": {"EOFF", 4}, "ESTR": {"ESTR", 6}, "EAP": {"EAP", 3}, "EAGI": {"EAGI", 2}, "FSS": {"FSS", 0}, "ESS": {"ESS", 0}}
+
+	fight2secondarystats := map[string]EntetiesClass{"FHeightSelect": {"FHeightSelect", 1}, "EHeightSelect": {"EHeightSelect", 2}, "FTypeSelect": {"FTypeSelect", 1}, "ETypeSelect": {"ETypeSelect", 1}, "FWidthSelect": {"FWidthSelect", 20}, "EWidthSelect": {"EWidthSelect", 40}, "FWeaponSelect": {"FWeaponSelect", 4}, "EWeaponSelect": {"EWeaponSelect", 8}, "FRaceSelect": {"FRaceSelect", 1}, "ERaceSelect": {"ERaceSelect", 2}}
+
+	fight2specialtiesStatsOn := map[string]bool{"FLightning Reflexes": true, "EDistracting": true, "FHatred": true}
+
+	fight2 := Data{
+		RawStats:           fight2rawstats,
+		SecondaryStats:     fight2secondarystats,
+		Weapon:             uweapon,
+		Height:             uheight,
+		Type:               utype,
+		Width:              ubase,
+		Races:              uraces,
+		SpecialtiesStats:   uspecialtiesStatsNames,
+		SpecialtiesStatsOn: fight2specialtiesStatsOn}
+
+	outcome2 := Outcome{
+		WINNER:      true,
+		AMMOUNT:     5,
+		BreakChance: "83.39", //TODO: figure out what this number actually should be. The hold guardians lose by 5 so are testing on DIS4
+		FNUM:        18,
+		ENUM:        3}
+
+	results2 := Results{fight2, outcome2}
+	/////////////////////////////////////////////////////////////////////////
+	Tests[1] = results1
+	Tests[2] = results2
+
+	// TODO:
+	for x, tt := range Tests {
 		actual := fight(tt.UnitData)
-		if actual != tt.FightResults {
-			t.Errorf("fight1: expected {WINNER: %t,	AMMOUNT: %d, BreakChance %s, FNUM        %d, ENUM %d}, actual {WINNER: %t, AMMOUNT: %d, BreakChance %s, FNUM        %d, ENUM %d}", outcome1.WINNER, outcome1.AMMOUNT, outcome1.BreakChance, outcome1.FNUM, outcome1.ENUM, actual.WINNER, actual.AMMOUNT, actual.BreakChance, actual.FNUM, actual.ENUM)
+		floatExpected, _ := strconv.ParseFloat(tt.FightResults.BreakChance, 64)
+		floatActual, _ := strconv.ParseFloat(actual.BreakChance, 64)
+
+		if actual != tt.FightResults && math.Round(floatExpected) != math.Round(floatActual) {
+			t.Errorf("\nFight%d:\nexpected {WINNER: %t,	AMMOUNT: %d, BreakChance %s, FNUM %d, ENUM %d}\nactual   {WINNER: %t, AMMOUNT: %d, BreakChance %s, FNUM %d, ENUM %d}\n", x, tt.FightResults.WINNER, tt.FightResults.AMMOUNT, tt.FightResults.BreakChance, tt.FightResults.FNUM, tt.FightResults.ENUM, actual.WINNER, actual.AMMOUNT, actual.BreakChance, actual.FNUM, actual.ENUM)
 		}
 	}
 }

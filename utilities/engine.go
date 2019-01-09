@@ -11,6 +11,8 @@ func fight(data Data) Outcome {
 	friendLR := data.SpecialtiesStatsOn["FLightning Reflexes"]
 	enemyAGI := data.RawStats["EAGI"].Value
 	enemyLR := data.SpecialtiesStatsOn["FLightning Reflexes"]
+	secondHitMod := 0
+	firstHitMod := 0
 
 	if data.SecondaryStats["FWeaponSelect"].Value == 4 { //greatweapon
 		if !friendLR {
@@ -43,6 +45,7 @@ func fight(data Data) Outcome {
 	firstBaseWidth, _ := strconv.Atoi(data.Width[firstBaseWidthSelection])
 	firstFOR := data.RawStats[string(order)+"FOR"].Value
 	firstQAN := data.RawStats[string(order)+"QAN"].Value
+	firstHP := data.RawStats[string(order)+"HP"].Value
 	firstATT := data.RawStats[string(order)+"ATT"].Value
 	firstOFF := data.RawStats[string(order)+"OFF"].Value
 	firstDEF := data.RawStats[string(order)+"DEF"].Value
@@ -57,28 +60,11 @@ func fight(data Data) Outcome {
 	firstHitReroll := 0
 	firstWoundReroll := 0
 	firstFIAR := 0
-	firstHitMod := 0
 	firstHatred := data.SpecialtiesStatsOn[string(order)+"Hatred"]
 	firstDistracting := data.SpecialtiesStatsOn[string(order)+"Distracting"]
 	firstLightningReflexes := data.SpecialtiesStatsOn[string(order)+"Lightning Reflexes"]
 	firstKillerInstinct := data.SpecialtiesStatsOn[string(order)+"Killer Instinct"]
 	firstShieldWall := data.SpecialtiesStatsOn[string(order)+"Shield Wall"]
-	if firstShieldWall && firstSS < 2 {
-		//handle charging so its not always a 5++
-		firstSS = 2
-	}
-	if firstLightningReflexes {
-		firstHitMod++
-	}
-	if firstDistracting {
-		firstHitMod--
-	}
-	if firstHatred {
-		firstHitReroll = 6 //reroll upto all values
-	}
-	if firstKillerInstinct {
-		firstWoundReroll = 1 //only reroll 1's
-	}
 
 	//Make changes for firsts weapons
 	switch data.SecondaryStats[string(order)+"WeaponSelect"].Value {
@@ -86,6 +72,7 @@ func fight(data Data) Outcome {
 		firstParry = true
 	case 2: //Spear
 		firstFIAR++
+		firstAP++
 	case 3: //Halberd
 		firstSTR++
 		firstAP++
@@ -103,6 +90,24 @@ func fight(data Data) Outcome {
 	case 7: //Lance
 		firstSTR += 2
 		firstAP += 2
+	case 8: //none
+	}
+	// Make changes for specialties
+	if firstShieldWall && firstSS < 2 {
+		//handle charging so its not always a 5++
+		firstSS = 2
+	}
+	if firstLightningReflexes {
+		firstHitMod++
+	}
+	if firstDistracting {
+		secondHitMod--
+	}
+	if firstHatred {
+		firstHitReroll = 6 //reroll upto all values
+	}
+	if firstKillerInstinct {
+		firstWoundReroll = 1 //only reroll 1's
 	}
 
 	secondHeightSelection := data.SecondaryStats[string(notOrder)+"HeightSelect"].Value
@@ -110,6 +115,7 @@ func fight(data Data) Outcome {
 	secondBaseWidth, _ := strconv.Atoi(data.Width[secondBaseWidthSelection])
 	secondFOR := data.RawStats[string(notOrder)+"FOR"].Value
 	secondQAN := data.RawStats[string(notOrder)+"QAN"].Value
+	secondHP := data.RawStats[string(notOrder)+"HP"].Value
 	secondATT := data.RawStats[string(notOrder)+"ATT"].Value
 	secondOFF := data.RawStats[string(notOrder)+"OFF"].Value
 	secondDEF := data.RawStats[string(notOrder)+"DEF"].Value
@@ -125,29 +131,11 @@ func fight(data Data) Outcome {
 	secondHitReroll := 0
 	secondWoundReroll := 0
 	secondFIAR := 0
-	secondHitMod := 0
 	secondHatred := data.SpecialtiesStatsOn[string(notOrder)+"Hatred"]
 	secondDistracting := data.SpecialtiesStatsOn[string(notOrder)+"Distracting"]
 	secondLightningReflexes := data.SpecialtiesStatsOn[string(notOrder)+"Lightning Reflexes"]
 	secondKillerInstinct := data.SpecialtiesStatsOn[string(notOrder)+"Killer Instinct"]
 	secondShieldWall := data.SpecialtiesStatsOn[string(notOrder)+"Shield Wall"]
-	if secondShieldWall && secondSS < 2 {
-		//handle charging so its not always a 5++
-		secondSS = 2
-	}
-	if secondLightningReflexes {
-		secondHitMod++
-	}
-	if secondDistracting {
-		secondHitMod--
-	}
-	if secondHatred {
-		secondHitReroll = 6 //reroll upto all values
-	}
-	if secondKillerInstinct {
-		secondWoundReroll = 1 //only reroll 1's
-	}
-
 	//Make changes for seconds weapons
 	switch data.SecondaryStats[string(notOrder)+"WeaponSelect"].Value {
 	case 1: //Sword and Board
@@ -173,7 +161,27 @@ func fight(data Data) Outcome {
 	case 7: //Lance
 		secondSTR += 2
 		secondAP += 2
+	case 8: //none
 	}
+	// Make changes for specailties
+	if secondShieldWall && secondSS < 2 {
+		//handle charging so its not always a 5++
+		secondSS = 2
+	}
+	if secondLightningReflexes {
+		secondHitMod++
+	}
+	if secondDistracting {
+		firstHitMod--
+	}
+	if secondHatred {
+		secondHitReroll = 6 //reroll upto all values
+	}
+	if secondKillerInstinct {
+		secondWoundReroll = 1 //only reroll 1's
+	}
+	/////////////////////////////////////////////////////////////////
+	// Calculate the results now all the stats are avaliable
 
 	// Whos fighting
 	firstCombatants, secondCombatants := numOfCombatants(firstFOR, firstQAN, firstBaseWidth, secondFOR, secondQAN, secondBaseWidth)
@@ -191,7 +199,7 @@ func fight(data Data) Outcome {
 
 	// Take off the casualties now if not simultaneous combat
 	if !(beforeOrder == 'S') {
-		secondQAN = secondQAN - int(firstCasualties)
+		secondQAN = secondQAN - int(math.Floor(firstCasualties/float64(secondHP)))
 
 	}
 
@@ -208,9 +216,9 @@ func fight(data Data) Outcome {
 	secondCasualties := (secondAttacks*secondHitChance + secondBonusHits) * secondWoundChance * secondArmourFailChance * secondSpecialFailChance
 
 	// Take off the casualties
-	firstQAN = firstQAN - int(secondCasualties)
+	firstQAN = firstQAN - int(math.Floor(secondCasualties/float64(firstHP)))
 	if beforeOrder == 'S' { //and the inital casualties for simultaneous combat.
-		secondQAN = secondQAN - int(firstCasualties)
+		secondQAN = secondQAN - int(math.Floor(firstCasualties/float64(secondHP)))
 	}
 
 	firstCombatRes := CombatRes(firstCasualties, firstQAN, firstFOR, firstHeightSelection, 0) //TODO: bonuses need work like having a banner or charging.
@@ -227,14 +235,14 @@ func fight(data Data) Outcome {
 		if secondRanks > firstRanks {         //steadfast
 			threshold = secondDIS
 		}
-		breakchance = ChanceOfSuccess(threshold, true, secondBSB, 0, 0)
+		breakchance = 1.0 - ChanceOfSuccess(threshold, false, secondBSB, 0, 0)
 	} else if combatResSum < 0 {
 		firstWon = false
 		threshold := firstDIS + combatResSum //combatresSum is negative
 		if firstRanks > secondRanks {        //steadfast
 			threshold = firstDIS
 		}
-		breakchance = ChanceOfSuccess(threshold, true, firstBSB, 0, 0)
+		breakchance = 1.0 - ChanceOfSuccess(threshold, false, firstBSB, 0, 0)
 	}
 	breakchanceString := "N/A"
 	if breakchance != 0.0 {
